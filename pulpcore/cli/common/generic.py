@@ -141,8 +141,7 @@ class PulpCLIContext(PulpContext):
         self.password = password
         self.oauth2_client_id = oauth2_client_id
         self.oauth2_client_secret = oauth2_client_secret
-        if not api_kwargs.get("cert"):
-            api_kwargs["auth_provider"] = PulpCLIAuthProvider(pulp_ctx=self)
+        api_kwargs["auth_provider"] = PulpCLIAuthProvider(pulp_ctx=self)
         super().__init__(
             api_root=api_root,
             api_kwargs=api_kwargs,

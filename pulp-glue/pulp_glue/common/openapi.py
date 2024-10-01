@@ -184,16 +184,12 @@ class OpenAPI:
         self.auth_provider = auth_provider
 
         self._session: requests.Session = requests.session()
-        if self.auth_provider:
-            if cert or key:
-                raise OpenAPIError(_("Cannot use both 'auth' and 'cert'."))
-        else:
-            if cert and key:
-                self._session.cert = (cert, key)
-            elif cert:
-                self._session.cert = cert
-            elif key:
-                raise OpenAPIError(_("Cert is required if key is set."))
+        if cert and key:
+            self._session.cert = (cert, key)
+        elif cert:
+            self._session.cert = cert
+        elif key:
+            raise OpenAPIError(_("Cert is required if key is set."))
         self._session.headers.update(
             {
                 "User-Agent": user_agent or f"Pulp-glue openapi parser ({__version__})",
